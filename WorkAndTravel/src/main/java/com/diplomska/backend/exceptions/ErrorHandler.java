@@ -13,4 +13,10 @@ public class ErrorHandler {
         return unf;
     }
 
+    @ExceptionHandler(PostNotFoundException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public PostNotFoundException handlePostNotFoundException (PostNotFoundException pnf) {
+        return pnf;
+    }
+
 }

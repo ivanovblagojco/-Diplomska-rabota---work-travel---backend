@@ -12,36 +12,25 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="user", schema="wat")
-public class User {
+@Table(name="post", schema="wat")
+public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String title;
 
-    private String surname;
-
-    private String email;
-
-    private String telephone;
-
-    private Boolean is_agency;
+    private String description;
 
     @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Role role;
+    @JoinColumn(name="user_id")
+    private User user;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user")
-    private List<Post> posts;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "post")
     private List<File> files;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "post")
     private List<Comment> comments;
-
 }
