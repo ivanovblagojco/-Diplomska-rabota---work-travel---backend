@@ -19,4 +19,16 @@ public class ErrorHandler {
         return pnf;
     }
 
+    @ExceptionHandler(RoleNotFoundException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public RoleNotFoundException handleRoleNotFoundException (RoleNotFoundException rnf) {
+        return rnf;
+    }
+
+    @ExceptionHandler(FileNotFoundException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public FileNotFoundException handleFileNotFoundException (FileNotFoundException fnf) {
+        return fnf;
+    }
+
 }

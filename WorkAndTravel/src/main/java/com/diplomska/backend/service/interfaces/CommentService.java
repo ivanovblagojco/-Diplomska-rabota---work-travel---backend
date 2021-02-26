@@ -1,7 +1,6 @@
 package com.diplomska.backend.service.interfaces;
 
 import com.diplomska.backend.model.Comment;
-import com.diplomska.backend.model.Post;
 
 import java.util.List;
 
