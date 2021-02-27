@@ -4,9 +4,10 @@ import com.diplomska.backend.exceptions.FileNotFoundException;
 import com.diplomska.backend.model.File;
 import com.diplomska.backend.repository.FileRepository;
 import com.diplomska.backend.service.interfaces.FileService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class FileServiceImpl implements FileService {
     private final FileRepository fileRepository;
 

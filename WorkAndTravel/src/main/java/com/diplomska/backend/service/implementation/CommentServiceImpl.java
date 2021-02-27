@@ -4,9 +4,10 @@ import com.diplomska.backend.exceptions.CommentNotFoundException;
 import com.diplomska.backend.model.Comment;
 import com.diplomska.backend.repository.CommentRepository;
 import com.diplomska.backend.service.interfaces.CommentService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;

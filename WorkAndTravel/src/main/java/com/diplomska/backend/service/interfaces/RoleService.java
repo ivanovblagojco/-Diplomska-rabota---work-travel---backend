@@ -8,4 +8,5 @@ public interface RoleService {
     Role update (Role role);
     Role findById (Long id);
     List<Role> findAll();
+    Role findByName(String name);
 }

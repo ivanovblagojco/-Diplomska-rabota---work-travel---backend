@@ -28,6 +28,9 @@ public class User {
 
     private Boolean is_agency;
 
+    @JsonIgnore
+    private String password;
+
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;

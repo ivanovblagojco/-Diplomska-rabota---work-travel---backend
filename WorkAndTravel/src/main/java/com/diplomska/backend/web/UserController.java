@@ -2,9 +2,7 @@ package com.diplomska.backend.web;
 
 import com.diplomska.backend.model.User;
 import com.diplomska.backend.service.interfaces.UserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,5 +18,12 @@ public class UserController {
     @GetMapping("/getAllUsers")
     public List<User> getAllUsers(){
         return this.userService.findAll();
+    }
+
+    @PostMapping("/adminCreateUser")
+    public User adminCreateUser(@RequestHeader("email") String email, @RequestHeader String password,@RequestBody User user){
+        user.setPassword(password);
+        user.setEmail(email);
+        return this.userService.create(user, true);
     }
 }

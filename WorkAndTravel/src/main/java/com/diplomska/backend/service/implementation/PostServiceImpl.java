@@ -4,9 +4,11 @@ import com.diplomska.backend.exceptions.PostNotFoundException;
 import com.diplomska.backend.model.Post;
 import com.diplomska.backend.repository.PostRepository;
 import com.diplomska.backend.service.interfaces.PostService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
 
