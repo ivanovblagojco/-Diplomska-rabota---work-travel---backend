@@ -16,12 +16,14 @@ import org.springframework.context.annotation.Bean;
 
 import static com.diplomska.backend.security.SecurityConstants.*;
 
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 @Configuration
 public class WebSecurity extends WebSecurityConfigurerAdapter {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private UserDetailsServiceImpl userDetailsService;
     private UserService userService;
+
+
 
 
     public WebSecurity(BCryptPasswordEncoder bCryptPasswordEncoder, UserDetailsServiceImpl userDetailsService, UserService userService) {
@@ -35,6 +37,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers( ADMIN_CREATE_USER, LOGIN_URL,USER_CREATE_USER)
                 .permitAll()
+                .antMatchers("/rest/getAllUsers").hasAnyRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager(), userService))
@@ -51,8 +54,24 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+        CorsConfiguration config = new CorsConfiguration().applyPermitDefaultValues();
+        config.addAllowedOrigin("*");
+        config.addAllowedHeader("*");
+
+        config.addExposedHeader("WWW-Authenticate");
+        config.addExposedHeader("Access-Control-Allow-Origin");
+        config.addExposedHeader("Access-Control-Allow-Headers");
+
+        config.addAllowedMethod("OPTIONS");
+        config.addAllowedMethod("HEAD");
+        config.addAllowedMethod("GET");
+        config.addAllowedMethod("PUT");
+        config.addAllowedMethod("POST");
+        config.addAllowedMethod("DELETE");
+        config.addAllowedMethod("PATCH");
+        source.registerCorsConfiguration("/**", config);
         return source;
+
     }
 
 }

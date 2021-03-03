@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
+@PreAuthorize("isAuthenticated()")
 @RestController
 @RequestMapping("/rest")
 public class UserController {
@@ -17,7 +19,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping("/getAllUsers")
     public List<User> getAllUsers(){
         return this.userService.findAll();
