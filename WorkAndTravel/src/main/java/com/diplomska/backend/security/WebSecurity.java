@@ -1,6 +1,7 @@
 package com.diplomska.backend.security;
 
 import com.diplomska.backend.service.implementation.UserDetailsServiceImpl;
+import com.diplomska.backend.service.interfaces.FacebookClientService;
 import com.diplomska.backend.service.interfaces.UserService;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -24,20 +25,23 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private UserDetailsServiceImpl userDetailsService;
     private UserService userService;
+    private FacebookClientService facebookClientService;
 
-    public WebSecurity(BCryptPasswordEncoder bCryptPasswordEncoder, UserDetailsServiceImpl userDetailsService, UserService userService) {
+    public WebSecurity(BCryptPasswordEncoder bCryptPasswordEncoder, UserDetailsServiceImpl userDetailsService, UserService userService, FacebookClientService facebookClientService) {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.userDetailsService = userDetailsService;
         this.userService = userService;
+        this.facebookClientService = facebookClientService;
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()
-                .antMatchers( ADMIN_CREATE_USER, LOGIN_URL,USER_CREATE_USER)
+                .antMatchers( ADMIN_CREATE_USER, LOGIN_URL,USER_CREATE_USER, FACEBOOK_LOGIN)
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()
+                .addFilter(new JWTAuthenticationFacebookFilter(authenticationManager(), userService, facebookClientService))
                 .addFilter(new JWTAuthenticationFilter(authenticationManager(), userService))
                 .addFilter(new JWTAuthorizationFilter(authenticationManager()))
                 // this disables session creation on Spring Security

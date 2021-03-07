@@ -8,4 +8,6 @@ public class SecurityConstants {
     public static final String ADMIN_CREATE_USER = "/rest/adminCreateUser";
     public static final String LOGIN_URL = "/rest/login";
     public static final String USER_CREATE_USER = "/rest/userCreateUser";
+    public static final String FACEBOOK_LOGIN = "/facebook/signin";
+
 }
