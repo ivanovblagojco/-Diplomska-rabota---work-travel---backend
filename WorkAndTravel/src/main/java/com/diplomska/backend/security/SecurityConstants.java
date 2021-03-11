@@ -9,5 +9,6 @@ public class SecurityConstants {
     public static final String LOGIN_URL = "/rest/login";
     public static final String USER_CREATE_USER = "/rest/userCreateUser";
     public static final String FACEBOOK_LOGIN = "/facebook/signin";
+    public static final String CONFIRM_ACCOUNT = "/rest/confirm-account";
 
 }

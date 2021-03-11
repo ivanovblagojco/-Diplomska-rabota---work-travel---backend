@@ -1,6 +1,7 @@
 package com.diplomska.backend.security;
 
 import com.auth0.jwt.JWT;
+import com.diplomska.backend.exceptions.UserNotEnabledException;
 import com.diplomska.backend.model.Role;
 import com.diplomska.backend.service.interfaces.UserService;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -45,15 +46,21 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             creds.setPassword(req.getHeader("password"));
 
             com.diplomska.backend.model.User user = userService.findByEmail(req.getHeader("email"));
-            Role role = user.getRole();
-            List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
-            return authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            creds.getEmail(),
-                            creds.getPassword(),
-                            authorities)
-            );
+
+            if(user.getIs_enabled()){
+                Role role = user.getRole();
+                List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+                authorities.add(new SimpleGrantedAuthority(role.getName()));
+                return authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(
+                                creds.getEmail(),
+                                creds.getPassword(),
+                                authorities)
+                );
+            }else{
+                throw new UserNotEnabledException();
+            }
+
         } catch (Exception e){
             throw new RuntimeException();
         }

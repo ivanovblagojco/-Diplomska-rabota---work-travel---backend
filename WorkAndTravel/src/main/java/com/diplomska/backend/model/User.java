@@ -28,6 +28,8 @@ public class User {
 
     private Boolean is_agency;
 
+    private Boolean is_enabled;
+
     @JsonIgnore
     private String password;
 
@@ -47,4 +49,7 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Comment> comments;
 
+    @JsonIgnore
+    @OneToOne(mappedBy = "user")
+    private Token token;
 }

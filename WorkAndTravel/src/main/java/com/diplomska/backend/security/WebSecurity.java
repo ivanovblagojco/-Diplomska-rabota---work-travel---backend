@@ -37,7 +37,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()
-                .antMatchers( ADMIN_CREATE_USER, LOGIN_URL,USER_CREATE_USER, FACEBOOK_LOGIN)
+                .antMatchers( ADMIN_CREATE_USER, LOGIN_URL,USER_CREATE_USER, FACEBOOK_LOGIN, CONFIRM_ACCOUNT)
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()

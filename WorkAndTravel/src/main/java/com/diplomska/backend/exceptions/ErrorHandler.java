@@ -31,4 +31,21 @@ public class ErrorHandler {
         return fnf;
     }
 
+    @ExceptionHandler(UserNotEnabledException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public UserNotEnabledException handleUserNotEnabledException (UserNotEnabledException une) {
+        return une;
+    }
+
+    @ExceptionHandler(TokenHasExpireException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public TokenHasExpireException handleTokenHasExpireException (TokenHasExpireException tee) {
+        return tee;
+    }
+
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public UserAlreadyExistsException handleUserAlreadyExistsException (UserAlreadyExistsException uae) {
+        return uae;
+    }
 }

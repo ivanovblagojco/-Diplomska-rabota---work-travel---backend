@@ -1,11 +1,15 @@
 package com.diplomska.backend.web;
 
+import com.diplomska.backend.exceptions.TokenHasExpireException;
+import com.diplomska.backend.exceptions.UserAlreadyExistsException;
+import com.diplomska.backend.model.Token;
 import com.diplomska.backend.model.User;
+import com.diplomska.backend.service.interfaces.TokenService;
 import com.diplomska.backend.service.interfaces.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 
@@ -13,9 +17,11 @@ import java.util.List;
 @RequestMapping("/rest")
 public class UserController {
     private final UserService userService;
+    private final TokenService tokenService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, TokenService tokenService) {
         this.userService = userService;
+        this.tokenService = tokenService;
     }
 
     @PreAuthorize("hasAnyRole('ADMIN')")
@@ -38,5 +44,25 @@ public class UserController {
         user.setPassword(password);
         user.setEmail(email);
         return this.userService.create(user, false);
+    }
+    @GetMapping("/confirm-account")
+    public void confirmAccount(@RequestParam String token){
+        Token tokenObj  = tokenService.findByToken(token);
+
+        if(tokenObj!=null){
+            if(tokenObj.getDate_expiration().isBefore(OffsetDateTime.now())){
+                tokenService.deleteByToken(token);
+                throw new TokenHasExpireException();
+            }else{
+                User user = tokenObj.getUser();
+                if(user.getIs_enabled()){
+                    throw new UserAlreadyExistsException();
+                }else{
+                    user.setIs_enabled(true);
+                    userService.update(user);
+                }
+                tokenService.deleteByToken(token);
+            }
+        }
     }
 }

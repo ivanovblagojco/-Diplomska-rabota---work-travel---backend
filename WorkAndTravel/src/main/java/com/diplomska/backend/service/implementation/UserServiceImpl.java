@@ -2,25 +2,36 @@ package com.diplomska.backend.service.implementation;
 
 import com.diplomska.backend.constants.RoleContstants;
 import com.diplomska.backend.exceptions.UserNotFoundException;
+import com.diplomska.backend.model.Token;
 import com.diplomska.backend.model.User;
 import com.diplomska.backend.repository.UserRepository;
 import com.diplomska.backend.service.interfaces.RoleService;
+import com.diplomska.backend.service.interfaces.TokenService;
 import com.diplomska.backend.service.interfaces.UserService;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleService roleService;
+    private final TokenService tokenService;
+
+    private  final JavaMailSender javaMailSender;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, RoleService roleService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, RoleService roleService, TokenService tokenService, JavaMailSender javaMailSender, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.roleService = roleService;
+        this.tokenService = tokenService;
+        this.javaMailSender = javaMailSender;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
@@ -32,7 +43,17 @@ public class UserServiceImpl implements UserService {
         }else{
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             user.setRole(roleService.findByName(RoleContstants.ROLE_PREFIX+RoleContstants.ROLE_USER));
-            return userRepository.save(user);
+            user.setIs_enabled(false);
+            user = userRepository.save(user);
+
+            Token token = new Token();
+            token.setToken(UUID.randomUUID().toString());
+            token.setDate_expiration(OffsetDateTime.now().plusMinutes(3));
+            token.setUser(user);
+            tokenService.create(token);
+
+            SendTokenForUser(user.getEmail(), token.getToken());
+            return user;
         }
     }
 
@@ -54,5 +75,22 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByEmail(String email) {
         return userRepository.findAll().stream().filter(u->u.getEmail().equals(email)).collect(Collectors.toList()).get(0);
+    }
+    public void SendTokenForUser(String email, String token){
+        try {
+
+
+            SimpleMailMessage mailMessage = new SimpleMailMessage();
+
+            mailMessage.setTo(email);
+            mailMessage.setSubject("Change password!");
+            mailMessage.setFrom("diplomskar@gmail.com");
+            mailMessage.setText("Click here to set your new password : "
+                  +"http://localhost:8080/rest/confirm-account?token="+token);
+
+            javaMailSender.send(mailMessage);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
