@@ -10,5 +10,8 @@ public class SecurityConstants {
     public static final String USER_CREATE_USER = "/rest/userCreateUser";
     public static final String FACEBOOK_LOGIN = "/facebook/signin";
     public static final String CONFIRM_ACCOUNT = "/rest/confirm-account";
+    public static final String FORGOT_PASSWORD = "/rest/forgot_password";
+    public static final String RESET_PASSWORD = "/rest/reset_password";
+
 
 }

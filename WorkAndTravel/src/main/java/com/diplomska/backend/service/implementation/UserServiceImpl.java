@@ -93,4 +93,7 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException(e);
         }
     }
+    public String encryptPassword(String password){
+        return this.bCryptPasswordEncoder.encode(password);
+    }
 }
