@@ -9,6 +9,8 @@ import com.diplomska.backend.service.interfaces.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.util.List;
 
@@ -46,23 +48,27 @@ public class UserController {
         return this.userService.create(user, false);
     }
     @GetMapping("/confirm-account")
-    public void confirmAccount(@RequestParam String token){
+    public void confirmAccount(@RequestParam String token, HttpServletResponse response) throws IOException {
         Token tokenObj  = tokenService.findByToken(token);
 
         if(tokenObj!=null){
             if(tokenObj.getDate_expiration().isBefore(OffsetDateTime.now())){
                 tokenService.deleteByToken(token);
-                throw new TokenHasExpireException();
+                response.sendRedirect("http://localhost:3000/first_register?m=expire");
             }else{
                 User user = tokenObj.getUser();
                 if(user.getIs_enabled()){
-                    throw new UserAlreadyExistsException();
+                    response.sendRedirect("http://localhost:3000/first_register?m=exists");
                 }else{
                     user.setIs_enabled(true);
                     userService.update(user);
                 }
                 tokenService.deleteByToken(token);
+
+                response.sendRedirect("http://localhost:3000/first_register?m=success");
             }
         }
+        response.sendRedirect("http://localhost:3000/first_register?m=exists");
+
     }
 }

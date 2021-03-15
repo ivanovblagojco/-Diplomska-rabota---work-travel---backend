@@ -50,7 +50,7 @@ public class ForgotPasswordController {
                 mailMessage.setSubject("Change password!");
                 mailMessage.setFrom("inteligenta05@gmail.com");
                 mailMessage.setText("Click here to set your new password : "
-                        +"http://localhost:8080/rest/reset_password?token="+token);
+                        +"http://localhost:3000/reset_password?token="+token);
 
                 javaMailSender.send(mailMessage);
             } catch (Exception e) {
@@ -69,11 +69,13 @@ public class ForgotPasswordController {
 
         if(user!=null){
             if(tokenObj.getDate_expiration().isBefore(OffsetDateTime.now())){
+                tokenService.deleteByToken(token);
                 throw new TokenHasExpireException();
             }else{
                 user.setPassword(userService.encryptPassword(password));
                 user.setIs_enabled(true);
                 userService.update(user);
+                tokenService.deleteByToken(token);
             }
         }
     }
