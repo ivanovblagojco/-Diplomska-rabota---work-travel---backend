@@ -10,6 +10,9 @@ import com.diplomska.backend.service.interfaces.TokenService;
 import com.diplomska.backend.service.interfaces.UserService;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -95,5 +98,16 @@ public class UserServiceImpl implements UserService {
     }
     public String encryptPassword(String password){
         return this.bCryptPasswordEncoder.encode(password);
+    }
+
+    @Override
+    public User getLoggedUser() {
+        //get the email
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        Authentication authentication = securityContext.getAuthentication();
+        String email = authentication.getPrincipal().toString();
+
+        //find user from DB
+        return this.userRepository.findByEmail(email);
     }
 }
