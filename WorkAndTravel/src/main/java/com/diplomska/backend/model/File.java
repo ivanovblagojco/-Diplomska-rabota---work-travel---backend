@@ -18,7 +18,9 @@ public class File {
 
     private String name;
 
-    private Byte [] content;
+    private byte [] content;
+
+    private String mime_type;
 
     @ManyToOne
     @JoinColumn(name = "post_id")

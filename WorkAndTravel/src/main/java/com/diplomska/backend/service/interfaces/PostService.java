@@ -3,12 +3,14 @@ package com.diplomska.backend.service.interfaces;
 
 import com.diplomska.backend.helpers.PostHelper;
 import com.diplomska.backend.model.Post;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface PostService {
-    Post create (PostHelper postHelper);
+    Post create(Post postF, MultipartFile fileF) throws IOException;
     Post update (Post post);
     Post findById (Long id);
-    List<Post> findAll();
+    List<PostHelper> findAll();
 }

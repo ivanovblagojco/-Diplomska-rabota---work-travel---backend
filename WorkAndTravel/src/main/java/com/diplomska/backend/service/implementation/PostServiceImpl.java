@@ -9,8 +9,11 @@ import com.diplomska.backend.service.interfaces.FileService;
 import com.diplomska.backend.service.interfaces.PostService;
 import com.diplomska.backend.service.interfaces.UserService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -25,18 +28,15 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post create(PostHelper postHelper) {
-
-        Post post = new Post();
-        post.setTitle(postHelper.getPost().getTitle());
-        post.setDescription(postHelper.getPost().getDescription());
+    public Post create(Post post, MultipartFile fileF) throws IOException {
         post.setUser(userService.getLoggedUser());
         post = postRepository.save(post);
 
         File f = new File();
-        f.setContent(postHelper.getFile().getContent());
+        f.setContent(fileF.getBytes());
         f.setUser(userService.getLoggedUser());
-        f.setName(postHelper.getFile().getName());
+        f.setName(fileF.getName());
+        f.setMime_type(fileF.getContentType());
         f.setPost(post);
         fileService.create(f);
 
@@ -54,7 +54,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> findAll() {
-        return this.postRepository.findAll();
+    public List<PostHelper> findAll() {
+        return this.postRepository.findAll().stream().map(Post::getAsPostHelper).collect(Collectors.toList());
     }
 }
