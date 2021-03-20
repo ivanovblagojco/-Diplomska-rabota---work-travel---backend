@@ -9,10 +9,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PostHelper {
+public class PostHelper implements Comparable<PostHelper>{
     private Long id;
     private String title;
     private String description;
     private String mime_type;
     private String bytes;
+
+    @Override
+    public int compareTo(PostHelper o) {
+        return this.getId().compareTo(o.getId());
+    }
 }

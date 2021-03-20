@@ -28,15 +28,18 @@ public class PostController {
         return this.postService.create(post, file);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping("/getAllPosts")
     public List<PostHelper> getAllPosts () {
         return this.postService.findAll();
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping("/getPost/{id}")
     public PostHelper getPost (@PathVariable Long id) {
         return this.postService.findById(id);
+    }
+
+    @GetMapping("/getLastThreePosts")
+    public List<PostHelper> getLastThreePosts() {
+        return this.postService.findAll().subList(0,3);
     }
 }

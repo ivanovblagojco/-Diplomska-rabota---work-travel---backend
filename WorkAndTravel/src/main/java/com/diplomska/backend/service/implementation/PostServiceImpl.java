@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,6 +56,10 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostHelper> findAll() {
-        return this.postRepository.findAll().stream().map(Post::getAsPostHelper).collect(Collectors.toList());
+        List<PostHelper> posts =  this.postRepository.findAll().stream().map(Post::getAsPostHelper).collect(Collectors.toList());
+
+        Collections.sort(posts, Collections.reverseOrder());
+
+        return posts;
     }
 }
