@@ -33,4 +33,10 @@ public class PostController {
     public List<PostHelper> getAllPosts () {
         return this.postService.findAll();
     }
+
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @GetMapping("/getPost/{id}")
+    public PostHelper getPost (@PathVariable Long id) {
+        return this.postService.findById(id);
+    }
 }

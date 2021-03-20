@@ -11,6 +11,6 @@ import java.util.List;
 public interface PostService {
     Post create(Post postF, MultipartFile fileF) throws IOException;
     Post update (Post post);
-    Post findById (Long id);
+    PostHelper findById (Long id);
     List<PostHelper> findAll();
 }

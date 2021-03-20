@@ -49,8 +49,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post findById(Long id) {
-        return this.postRepository.findById(id).orElseThrow(PostNotFoundException::new);
+    public PostHelper findById(Long id) {
+        return this.postRepository.findById(id).orElseThrow(PostNotFoundException::new).getAsPostHelper();
     }
 
     @Override

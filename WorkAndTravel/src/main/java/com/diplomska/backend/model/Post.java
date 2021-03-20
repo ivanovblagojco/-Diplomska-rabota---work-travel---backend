@@ -41,6 +41,7 @@ public class Post {
     public PostHelper getAsPostHelper(){
         PostHelper p = new PostHelper();
 
+        p.setId(this.id);
         p.setTitle(this.title);
         p.setDescription(this.description);
         p.setMime_type(files.get(0).getMime_type());
