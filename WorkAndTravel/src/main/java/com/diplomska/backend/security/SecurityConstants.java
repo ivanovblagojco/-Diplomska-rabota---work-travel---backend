@@ -15,6 +15,8 @@ public class SecurityConstants {
     public static final String GET_ALL_POSTS = "/rest/getAllPosts";
     public static final String GET_LAST_THREE_POSTS = "/rest/getLastThreePosts";
     public static final String GET_POST = "/rest/getPost/{id}";
+    public static final String GET_ALL_POSTS_FROM_USERS = "/rest/getAllPostsFromUsers";
+    public static final String GET_ALL_POSTS_FROM_AGENCY = "/rest/getAllPostsFromAgency";
 
 
 }

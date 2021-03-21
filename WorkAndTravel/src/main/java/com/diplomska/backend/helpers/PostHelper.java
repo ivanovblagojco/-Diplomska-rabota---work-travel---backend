@@ -15,6 +15,7 @@ public class PostHelper implements Comparable<PostHelper>{
     private String description;
     private String mime_type;
     private String bytes;
+    private Boolean from_agency;
 
     @Override
     public int compareTo(PostHelper o) {

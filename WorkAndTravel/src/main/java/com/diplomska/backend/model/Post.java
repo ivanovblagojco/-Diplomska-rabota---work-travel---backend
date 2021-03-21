@@ -46,6 +46,7 @@ public class Post{
         p.setDescription(this.description);
         p.setMime_type(files.get(0).getMime_type());
         p.setBytes(Base64.encodeBase64String(files.get(0).getContent()));
+        p.setFrom_agency(this.user.getIs_agency());
 
         return p;
     }

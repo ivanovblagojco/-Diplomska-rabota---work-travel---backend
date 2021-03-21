@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/rest")
@@ -41,5 +42,15 @@ public class PostController {
     @GetMapping("/getLastThreePosts")
     public List<PostHelper> getLastThreePosts() {
         return this.postService.findAll().subList(0,3);
+    }
+
+    @GetMapping("/getAllPostsFromUsers")
+    public List<PostHelper> getAllPostsFromUsers () {
+        return this.postService.findAll().stream().filter(p->p.getFrom_agency().equals(false)).collect(Collectors.toList());
+    }
+
+    @GetMapping("/getAllPostsFromAgency")
+    public List<PostHelper> getAllPostsFromAgency () {
+        return this.postService.findAll().stream().filter(p->p.getFrom_agency().equals(true)).collect(Collectors.toList());
     }
 }
