@@ -2,6 +2,7 @@ package com.diplomska.backend.web;
 
 import com.diplomska.backend.exceptions.TokenHasExpireException;
 import com.diplomska.backend.exceptions.UserAlreadyExistsException;
+import com.diplomska.backend.helpers.UserHelper;
 import com.diplomska.backend.model.Token;
 import com.diplomska.backend.model.User;
 import com.diplomska.backend.service.interfaces.TokenService;
@@ -70,5 +71,10 @@ public class UserController {
         }
         response.sendRedirect("http://localhost:3000/first_register?m=exists");
 
+    }
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER', 'AGENCY')")
+    @GetMapping("/getLoggedUser")
+    public UserHelper getLoggedUser(){
+        return userService.getLoggedUser().getAsUserHelper();
     }
 }

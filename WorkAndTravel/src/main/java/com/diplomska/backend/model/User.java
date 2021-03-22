@@ -1,5 +1,6 @@
 package com.diplomska.backend.model;
 
+import com.diplomska.backend.helpers.UserHelper;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -52,4 +53,17 @@ public class User {
     @JsonIgnore
     @OneToOne(mappedBy = "user")
     private Token token;
+
+
+    @JsonIgnore
+    public UserHelper getAsUserHelper(){
+        UserHelper userHelper = new UserHelper();
+
+        userHelper.setEmail(email);
+        userHelper.setName(name);
+        userHelper.setSurname(surname);
+        userHelper.setRole(role.getName());
+
+        return userHelper;
+    }
 }
