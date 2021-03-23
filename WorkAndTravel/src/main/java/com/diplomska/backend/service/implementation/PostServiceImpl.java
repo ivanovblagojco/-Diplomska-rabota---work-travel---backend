@@ -55,6 +55,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public Post getById(Long id) {
+        return this.postRepository.findById(id).orElseThrow(PostNotFoundException::new);
+    }
+
+    @Override
     public List<PostHelper> findAll() {
         List<PostHelper> posts =  this.postRepository.findAll().stream().map(Post::getAsPostHelper).collect(Collectors.toList());
 

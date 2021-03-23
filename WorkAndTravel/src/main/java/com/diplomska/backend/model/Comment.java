@@ -1,5 +1,7 @@
 package com.diplomska.backend.model;
 
+import com.diplomska.backend.helpers.CommentHelper;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,4 +29,15 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name="post_id")
     private Post post;
+
+    @JsonIgnore
+    public CommentHelper getAsCommentHelper(){
+        CommentHelper commentHelper = new CommentHelper();
+
+        commentHelper.setDescription(description);
+        commentHelper.setEmail(user.getEmail());
+
+        return commentHelper;
+    }
 }
+

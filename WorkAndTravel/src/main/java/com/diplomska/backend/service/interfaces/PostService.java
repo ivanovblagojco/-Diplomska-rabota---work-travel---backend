@@ -12,5 +12,6 @@ public interface PostService {
     Post create(Post postF, MultipartFile fileF) throws IOException;
     Post update (Post post);
     PostHelper findById (Long id);
+    Post getById (Long id);
     List<PostHelper> findAll();
 }
