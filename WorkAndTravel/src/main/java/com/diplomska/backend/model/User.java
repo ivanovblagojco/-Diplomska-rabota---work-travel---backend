@@ -54,6 +54,13 @@ public class User {
     @OneToOne(mappedBy = "user")
     private Token token;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "sender")
+    private List<Message> sent_messages;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "receiver")
+    private List<Message> received_messages;
 
     @JsonIgnore
     public UserHelper getAsUserHelper(){
