@@ -13,7 +13,7 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name="message", schema="wat")
-public class Message {
+public class Message implements Comparable<Message>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,4 +32,13 @@ public class Message {
     @ManyToOne
     @JoinColumn(name="receiver_user_id")
     private User receiver;
+
+    @ManyToOne
+    @JoinColumn(name="conversation_id")
+    private Conversation conversation;
+
+    @Override
+    public int compareTo(Message o) {
+        return this.getId().compareTo(o.getId());
+    }
 }
