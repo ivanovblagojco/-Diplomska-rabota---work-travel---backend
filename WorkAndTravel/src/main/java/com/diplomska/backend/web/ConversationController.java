@@ -53,7 +53,7 @@ public class ConversationController {
     @GetMapping("/getConversationMessages/{name}")
     public List<Message> getConversationMessages(@PathVariable String name){
         List<Message> messages = this.conversationService.findByName(name).getMessages();
-        Collections.sort(messages, Collections.reverseOrder());
+        Collections.sort(messages);
         return messages;
     }
 
