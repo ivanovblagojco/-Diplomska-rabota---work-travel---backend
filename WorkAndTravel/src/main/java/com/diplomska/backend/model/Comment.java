@@ -34,6 +34,7 @@ public class Comment {
     public CommentHelper getAsCommentHelper(){
         CommentHelper commentHelper = new CommentHelper();
 
+        commentHelper.setId(id);
         commentHelper.setDescription(description);
         commentHelper.setEmail(user.getEmail());
 
