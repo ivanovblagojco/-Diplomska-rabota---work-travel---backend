@@ -48,6 +48,15 @@ public class UserController {
         user.setEmail(email);
         return this.userService.create(user, false);
     }
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER', 'AGENCY')")
+    @PutMapping("/userUpdateUser")
+    public User userUpdateUser(@RequestBody User user){
+        var userDb = userService.findByEmail(user.getEmail());
+        userDb.setName(user.getName());
+        userDb.setSurname(user.getSurname());
+
+        return this.userService.update(userDb);
+    }
     @GetMapping("/confirm-account")
     public void confirmAccount(@RequestParam String token, HttpServletResponse response) throws IOException {
         Token tokenObj  = tokenService.findByToken(token);

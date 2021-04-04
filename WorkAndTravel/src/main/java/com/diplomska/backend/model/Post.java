@@ -1,5 +1,6 @@
 package com.diplomska.backend.model;
 
+import com.diplomska.backend.constants.RoleContstants;
 import com.diplomska.backend.helpers.PostHelper;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -46,7 +47,12 @@ public class Post{
         p.setDescription(this.description);
         p.setMime_type(files.get(0).getMime_type());
         p.setBytes(Base64.encodeBase64String(files.get(0).getContent()));
-        p.setFrom_agency(this.user.getIs_agency());
+
+        if(this.user.getRole().getName().equals(RoleContstants.ROLE_PREFIX+RoleContstants.ROLE_AGENCY)){
+            p.setFrom_agency(true);
+        }else if(this.user.getRole().getName().equals(RoleContstants.ROLE_PREFIX+RoleContstants.ROLE_USER)){
+            p.setFrom_agency(false);
+        }
 
         return p;
     }
