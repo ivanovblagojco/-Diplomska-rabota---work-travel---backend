@@ -57,6 +57,11 @@ public class UserController {
 
         return this.userService.update(userDb);
     }
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER', 'AGENCY')")
+    @PutMapping("/userChangesPassword")
+    public void userChangePassword(@RequestHeader String email, @RequestHeader String oldPassword, @RequestHeader String newPassword){
+        this.userService.userChangesPassword(email, oldPassword, newPassword);
+    }
     @GetMapping("/confirm-account")
     public void confirmAccount(@RequestParam String token, HttpServletResponse response) throws IOException {
         Token tokenObj  = tokenService.findByToken(token);

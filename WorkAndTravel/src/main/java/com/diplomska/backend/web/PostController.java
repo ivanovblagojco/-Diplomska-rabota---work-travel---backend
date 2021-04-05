@@ -7,6 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,7 +21,7 @@ public class PostController {
         this.postService = postService;
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER', 'AGENCY')")
     @PostMapping("/createPost")
     public Post createPost (@RequestParam("file")MultipartFile file, @RequestParam("title")String title, @RequestParam("description") String description) throws IOException {
         Post post = new Post();

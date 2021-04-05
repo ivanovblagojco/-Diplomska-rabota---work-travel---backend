@@ -38,7 +38,7 @@ public class Post{
     private List<Comment> comments;
 
 
-
+    @JsonIgnore
     public PostHelper getAsPostHelper(){
         PostHelper p = new PostHelper();
 

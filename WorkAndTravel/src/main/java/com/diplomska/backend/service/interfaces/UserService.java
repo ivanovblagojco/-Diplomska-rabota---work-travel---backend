@@ -12,4 +12,5 @@ public interface UserService {
     User findByEmail(String email);
     String encryptPassword(String password);
     User getLoggedUser();
+    void userChangesPassword(String email, String oldPassword, String newPassword);
 }

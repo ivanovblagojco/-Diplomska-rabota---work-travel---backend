@@ -28,7 +28,8 @@ public class UserServiceImpl implements UserService {
     private final TokenService tokenService;
 
     private  final JavaMailSender javaMailSender;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
 
     public UserServiceImpl(UserRepository userRepository, RoleService roleService, TokenService tokenService, JavaMailSender javaMailSender, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
@@ -109,5 +110,18 @@ public class UserServiceImpl implements UserService {
 
         //find user from DB
         return this.userRepository.findByEmail(email);
+    }
+
+    @Override
+    public void userChangesPassword(String email, String oldPassword, String newPassword) {
+        User user = userRepository.findByEmail(email);
+
+        String userPass = user.getPassword();
+        if(bCryptPasswordEncoder.matches(oldPassword, userPass)){
+            user.setPassword(bCryptPasswordEncoder.encode(newPassword));
+            this.update(user);
+        }else{
+            throw new RuntimeException();
+        }
     }
 }
