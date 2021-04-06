@@ -3,6 +3,10 @@ package com.diplomska.backend.web;
 import com.diplomska.backend.helpers.PostHelper;
 import com.diplomska.backend.model.Post;
 import com.diplomska.backend.service.interfaces.PostService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,9 +34,16 @@ public class PostController {
         return this.postService.create(post, file);
     }
 
-    @GetMapping("/getAllPosts")
-    public List<PostHelper> getAllPosts () {
-        return this.postService.findAll();
+    @GetMapping("/getAllPosts/{page}/{size}")
+    public Page<PostHelper> getAllPosts (@PathVariable int page, @PathVariable int size) {
+        List<PostHelper> posts = this.postService.findAll();
+
+        posts = posts.stream().sorted((first, second) -> -first.getId().compareTo(second.getId())).collect(Collectors.toList());
+
+        Pageable pageable = PageRequest.of(page, size);
+        int startIdx = Math.min((int)pageable.getOffset(), posts.size());
+        int endIdx = Math.min(startIdx + pageable.getPageSize(), posts.size());
+        return new PageImpl<>(posts.subList(startIdx, endIdx),pageable,posts.size());
     }
 
     @GetMapping("/getPost/{id}")
@@ -45,13 +56,27 @@ public class PostController {
         return this.postService.findAll().subList(0,3);
     }
 
-    @GetMapping("/getAllPostsFromUsers")
-    public List<PostHelper> getAllPostsFromUsers () {
-        return this.postService.findAll().stream().filter(p->p.getFrom_agency().equals(false)).collect(Collectors.toList());
+    @GetMapping("/getAllPostsFromUsers/{page}/{size}")
+    public Page<PostHelper> getAllPostsFromUsers (@PathVariable int page, @PathVariable int size) {
+        List<PostHelper> posts = this.postService.findAll().stream().filter(p->p.getFrom_agency().equals(false)).collect(Collectors.toList());
+
+        posts = posts.stream().sorted((first, second) -> -first.getId().compareTo(second.getId())).collect(Collectors.toList());
+
+        Pageable pageable = PageRequest.of(page, size);
+        int startIdx = Math.min((int)pageable.getOffset(), posts.size());
+        int endIdx = Math.min(startIdx + pageable.getPageSize(), posts.size());
+        return new PageImpl<>(posts.subList(startIdx, endIdx),pageable,posts.size());
     }
 
-    @GetMapping("/getAllPostsFromAgency")
-    public List<PostHelper> getAllPostsFromAgency () {
-        return this.postService.findAll().stream().filter(p->p.getFrom_agency().equals(true)).collect(Collectors.toList());
+    @GetMapping("/getAllPostsFromAgency/{page}/{size}")
+    public Page<PostHelper> getAllPostsFromAgency (@PathVariable int page, @PathVariable int size) {
+        List<PostHelper> posts = this.postService.findAll().stream().filter(p->p.getFrom_agency().equals(true)).collect(Collectors.toList());
+
+        posts = posts.stream().sorted((first, second) -> -first.getId().compareTo(second.getId())).collect(Collectors.toList());
+
+        Pageable pageable = PageRequest.of(page, size);
+        int startIdx = Math.min((int)pageable.getOffset(), posts.size());
+        int endIdx = Math.min(startIdx + pageable.getPageSize(), posts.size());
+        return new PageImpl<>(posts.subList(startIdx, endIdx),pageable,posts.size());
     }
 }
