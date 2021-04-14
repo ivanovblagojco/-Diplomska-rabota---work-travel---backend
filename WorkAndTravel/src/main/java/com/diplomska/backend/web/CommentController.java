@@ -41,4 +41,9 @@ public class CommentController {
         return new PageImpl<>(comments.subList(startIdx, endIdx),pageable,comments.size());
 
     }
+    @DeleteMapping("deleteComment/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER', 'AGENCY')")
+    public void deleteComment(@PathVariable Long id){
+        this.commentService.deleteById(id);
+    }
 }

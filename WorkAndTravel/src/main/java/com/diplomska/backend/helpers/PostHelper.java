@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.OffsetDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,9 +15,11 @@ public class PostHelper implements Comparable<PostHelper>{
     private Long id;
     private String title;
     private String description;
+    private String date_created;
     private String mime_type;
     private String bytes;
     private Boolean from_agency;
+    private String creator;
 
     @Override
     public int compareTo(PostHelper o) {

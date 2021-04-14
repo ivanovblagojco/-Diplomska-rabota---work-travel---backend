@@ -7,8 +7,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.codec.binary.Base64;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Data
@@ -24,6 +26,9 @@ public class Post{
     private String title;
 
     private String description;
+
+    @CreationTimestamp
+    private OffsetDateTime date_created;
 
     @ManyToOne
     @JoinColumn(name="user_id")
@@ -45,8 +50,10 @@ public class Post{
         p.setId(this.id);
         p.setTitle(this.title);
         p.setDescription(this.description);
+        p.setDate_created(date_created.toString().split("T")[0]);
         p.setMime_type(files.get(0).getMime_type());
         p.setBytes(Base64.encodeBase64String(files.get(0).getContent()));
+        p.setCreator(user.getEmail());
 
         if(this.user.getRole().getName().equals(RoleContstants.ROLE_PREFIX+RoleContstants.ROLE_AGENCY)){
             p.setFrom_agency(true);

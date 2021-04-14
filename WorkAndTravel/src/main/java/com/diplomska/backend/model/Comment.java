@@ -5,8 +5,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.time.OffsetDateTime;
 
 @Data
 @Entity
@@ -21,6 +23,9 @@ public class Comment {
     private String title;
 
     private String description;
+
+    @CreationTimestamp
+    private OffsetDateTime date_created;
 
     @ManyToOne
     @JoinColumn(name="user_id")
@@ -37,6 +42,7 @@ public class Comment {
         commentHelper.setId(id);
         commentHelper.setDescription(description);
         commentHelper.setEmail(user.getEmail());
+        commentHelper.setDate_created(date_created.toString().split("T")[0]);
 
         return commentHelper;
     }

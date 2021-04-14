@@ -17,6 +17,7 @@ public class CommentServiceImpl implements CommentService {
     private final PostService postService;
     private final UserService userService;
 
+
     public CommentServiceImpl(CommentRepository commentRepository, PostService postService, UserService userService) {
         this.commentRepository = commentRepository;
         this.postService = postService;
@@ -47,5 +48,10 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<Comment> findAll() {
         return this.commentRepository.findAll();
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        this.commentRepository.deleteById(id);
     }
 }

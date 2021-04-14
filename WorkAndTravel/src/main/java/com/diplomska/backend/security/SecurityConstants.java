@@ -12,11 +12,11 @@ public class SecurityConstants {
     public static final String CONFIRM_ACCOUNT = "/rest/confirm-account";
     public static final String FORGOT_PASSWORD = "/rest/forgot_password";
     public static final String RESET_PASSWORD = "/rest/reset_password";
-    public static final String GET_ALL_POSTS = "/rest/getAllPosts";
+    public static final String GET_ALL_POSTS = "/rest/getAllPosts/{page}/{size}";
     public static final String GET_LAST_THREE_POSTS = "/rest/getLastThreePosts";
     public static final String GET_POST = "/rest/getPost/{id}";
-    public static final String GET_ALL_POSTS_FROM_USERS = "/rest/getAllPostsFromUsers";
-    public static final String GET_ALL_POSTS_FROM_AGENCY = "/rest/getAllPostsFromAgency";
+    public static final String GET_ALL_POSTS_FROM_USERS = "/rest/getAllPostsFromUsers/{page}/{size}";
+    public static final String GET_ALL_POSTS_FROM_AGENCY = "/rest/getAllPostsFromAgency/{page}/{size}";
     public static final String GET_ALL_COMMENTS_FOR_POST = "/rest/getAllComments/{page}/{size}/{post_id}";
 
 
