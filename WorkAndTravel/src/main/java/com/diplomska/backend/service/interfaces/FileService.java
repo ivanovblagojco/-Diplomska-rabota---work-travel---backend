@@ -10,4 +10,6 @@ public interface FileService {
     File update (File file);
     File findById (Long id);
     List<File> findAll();
+    void deleteById(Long id);
+
 }

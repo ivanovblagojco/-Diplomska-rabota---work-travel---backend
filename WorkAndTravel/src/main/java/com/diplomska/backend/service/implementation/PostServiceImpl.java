@@ -5,9 +5,12 @@ import com.diplomska.backend.helpers.PostHelper;
 import com.diplomska.backend.model.File;
 import com.diplomska.backend.model.Post;
 import com.diplomska.backend.repository.PostRepository;
+import com.diplomska.backend.service.interfaces.CommentService;
 import com.diplomska.backend.service.interfaces.FileService;
 import com.diplomska.backend.service.interfaces.PostService;
 import com.diplomska.backend.service.interfaces.UserService;
+import jdk.jfr.Label;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,11 +24,13 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final UserService userService;
     private final FileService fileService;
+    private final CommentService commentService;
 
-    public PostServiceImpl(PostRepository postRepository, UserService userService, FileService fileService) {
+    public PostServiceImpl(PostRepository postRepository, UserService userService, FileService fileService,@Lazy CommentService commentService) {
         this.postRepository = postRepository;
         this.userService = userService;
         this.fileService = fileService;
+        this.commentService = commentService;
     }
 
     @Override
@@ -33,13 +38,15 @@ public class PostServiceImpl implements PostService {
         post.setUser(userService.getLoggedUser());
         post = postRepository.save(post);
 
-        File f = new File();
-        f.setContent(fileF.getBytes());
-        f.setUser(userService.getLoggedUser());
-        f.setName(fileF.getName());
-        f.setMime_type(fileF.getContentType());
-        f.setPost(post);
-        fileService.create(f);
+        if(fileF!=null){
+            File f = new File();
+            f.setContent(fileF.getBytes());
+            f.setUser(userService.getLoggedUser());
+            f.setName(fileF.getName());
+            f.setMime_type(fileF.getContentType());
+            f.setPost(post);
+            fileService.create(f);
+        }
 
         return post;
     }
@@ -66,5 +73,26 @@ public class PostServiceImpl implements PostService {
         Collections.sort(posts, Collections.reverseOrder());
 
         return posts;
+    }
+
+    @Override
+    public void delete(Long id) {
+        Post post = this.postRepository.findById(id).orElseThrow(PostNotFoundException::new);
+
+        if(post.getComments().size()!=0){
+            for(int i=0; i<post.getComments().size(); i++){
+               commentService.deleteById(post.getComments().get(i).getId());
+            }
+            post.setComments(null);
+        }
+
+        if(post.getFiles().size()!=0){
+            for(int i=0; i<post.getFiles().size(); i++){
+                fileService.deleteById(post.getFiles().get(i).getId());
+            }
+            post.setFiles(null);
+        }
+
+        postRepository.deleteById(id);
     }
 }

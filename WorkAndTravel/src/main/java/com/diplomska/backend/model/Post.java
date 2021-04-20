@@ -53,6 +53,7 @@ public class Post{
         p.setDate_created(date_created.toString().split("T")[0]);
         p.setMime_type(files.get(0).getMime_type());
         p.setBytes(Base64.encodeBase64String(files.get(0).getContent()));
+        p.setFile_name(files.get(0).getName());
         p.setCreator(user.getEmail());
 
         if(this.user.getRole().getName().equals(RoleContstants.ROLE_PREFIX+RoleContstants.ROLE_AGENCY)){

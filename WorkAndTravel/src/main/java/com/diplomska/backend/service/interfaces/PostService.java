@@ -14,4 +14,5 @@ public interface PostService {
     PostHelper findById (Long id);
     Post getById (Long id);
     List<PostHelper> findAll();
+    void delete(Long id);
 }

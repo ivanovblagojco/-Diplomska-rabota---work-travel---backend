@@ -34,4 +34,9 @@ public class FileServiceImpl implements FileService {
     public List<File> findAll() {
         return this.fileRepository.findAll();
     }
+
+    @Override
+    public void deleteById(Long id) {
+        this.fileRepository.deleteById(id);
+    }
 }

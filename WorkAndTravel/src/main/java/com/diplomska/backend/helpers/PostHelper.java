@@ -18,6 +18,7 @@ public class PostHelper implements Comparable<PostHelper>{
     private String date_created;
     private String mime_type;
     private String bytes;
+    private String file_name;
     private Boolean from_agency;
     private String creator;
 
