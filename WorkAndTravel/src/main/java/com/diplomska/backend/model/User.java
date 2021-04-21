@@ -67,6 +67,10 @@ public class User {
     private List<UserConversation> userConversations;
 
     @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Contact> contacts;
+
+    @JsonIgnore
     public UserHelper getAsUserHelper(){
         UserHelper userHelper = new UserHelper();
 

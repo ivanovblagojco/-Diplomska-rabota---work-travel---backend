@@ -18,6 +18,8 @@ public class SecurityConstants {
     public static final String GET_ALL_POSTS_FROM_USERS = "/rest/getAllPostsFromUsers/{page}/{size}";
     public static final String GET_ALL_POSTS_FROM_AGENCY = "/rest/getAllPostsFromAgency/{page}/{size}";
     public static final String GET_ALL_COMMENTS_FOR_POST = "/rest/getAllComments/{page}/{size}/{post_id}";
+    public static final String CREATE_CONTACT = "/rest/createContact";
+
 
 
 }
