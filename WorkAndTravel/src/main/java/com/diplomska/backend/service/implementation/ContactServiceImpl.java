@@ -6,6 +6,8 @@ import com.diplomska.backend.service.interfaces.ContactService;
 import com.diplomska.backend.service.interfaces.UserService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ContactServiceImpl implements ContactService {
     private final ContactRepository contactRepository;
@@ -20,5 +22,10 @@ public class ContactServiceImpl implements ContactService {
     public Contact create(Contact contact) {
         contact.setUser(userService.findByEmail("admin@admin.com"));
         return this.contactRepository.save(contact);
+    }
+
+    @Override
+    public List<Contact> getAllContacts() {
+        return this.contactRepository.findAll();
     }
 }
