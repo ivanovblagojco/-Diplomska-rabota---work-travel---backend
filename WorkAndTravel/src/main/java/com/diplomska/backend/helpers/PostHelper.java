@@ -21,6 +21,7 @@ public class PostHelper implements Comparable<PostHelper>{
     private String file_name;
     private Boolean from_agency;
     private String creator;
+    private String place;
 
     @Override
     public int compareTo(PostHelper o) {

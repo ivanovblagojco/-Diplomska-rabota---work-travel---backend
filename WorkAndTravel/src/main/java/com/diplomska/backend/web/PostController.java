@@ -42,9 +42,14 @@ public class PostController {
         return this.postService.create(post, file);
     }
 
-    @GetMapping("/getAllPosts/{page}/{size}")
-    public Page<PostHelper> getAllPosts (@PathVariable int page, @PathVariable int size) {
-        List<PostHelper> posts = this.postService.findAll();
+    @GetMapping(value = {"/getAllPosts/{page}/{size}", "/getAllPosts/{place}/{page}/{size}"})
+    public Page<PostHelper> getAllPosts (@PathVariable(required = false) String place, @PathVariable int page, @PathVariable int size) {
+        List<PostHelper> posts;
+        if(place==null){
+            posts = this.postService.findAll();
+        }else {
+            posts = this.postService.findAll().stream().filter(p->p.getPlace().equals(place)).collect(Collectors.toList());
+        }
 
         posts = posts.stream().sorted((first, second) -> -first.getId().compareTo(second.getId())).collect(Collectors.toList());
 
@@ -64,9 +69,14 @@ public class PostController {
         return this.postService.findAll().subList(0,3);
     }
 
-    @GetMapping("/getAllPostsFromUsers/{page}/{size}")
-    public Page<PostHelper> getAllPostsFromUsers (@PathVariable int page, @PathVariable int size) {
-        List<PostHelper> posts = this.postService.findAll().stream().filter(p->p.getFrom_agency().equals(false)).collect(Collectors.toList());
+    @GetMapping(value = {"/getAllPostsFromUsers/{page}/{size}","/getAllPostsFromUsers/{place}/{page}/{size}"})
+    public Page<PostHelper> getAllPostsFromUsers (@PathVariable(required = false) String place, @PathVariable int page, @PathVariable int size) {
+        List<PostHelper> posts;
+        if(place==null){
+            posts = this.postService.findAll().stream().filter(p->p.getFrom_agency().equals(false)).collect(Collectors.toList());
+        }else {
+            posts = this.postService.findAll().stream().filter(p->p.getFrom_agency().equals(false) && p.getPlace().equals(place)).collect(Collectors.toList());
+        }
 
         posts = posts.stream().sorted((first, second) -> -first.getId().compareTo(second.getId())).collect(Collectors.toList());
 
@@ -76,10 +86,14 @@ public class PostController {
         return new PageImpl<>(posts.subList(startIdx, endIdx),pageable,posts.size());
     }
 
-    @GetMapping("/getAllPostsFromAgency/{page}/{size}")
-    public Page<PostHelper> getAllPostsFromAgency (@PathVariable int page, @PathVariable int size) {
-        List<PostHelper> posts = this.postService.findAll().stream().filter(p->p.getFrom_agency().equals(true)).collect(Collectors.toList());
-
+    @GetMapping(value = {"/getAllPostsFromAgency/{page}/{size}","/getAllPostsFromAgency/{place}/{page}/{size}"})
+    public Page<PostHelper> getAllPostsFromAgency (@PathVariable(required = false)String place, @PathVariable int page, @PathVariable int size) {
+        List<PostHelper> posts;
+        if(place==null){
+            posts = this.postService.findAll().stream().filter(p->p.getFrom_agency().equals(true)).collect(Collectors.toList());
+        }else {
+            posts = this.postService.findAll().stream().filter(p->p.getFrom_agency().equals(true) && p.getPlace().equals(place)).collect(Collectors.toList());
+        }
         posts = posts.stream().sorted((first, second) -> -first.getId().compareTo(second.getId())).collect(Collectors.toList());
 
         Pageable pageable = PageRequest.of(page, size);

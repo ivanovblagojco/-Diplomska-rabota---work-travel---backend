@@ -27,6 +27,8 @@ public class Post{
 
     private String description;
 
+    private String place;
+
     @CreationTimestamp
     private OffsetDateTime date_created;
 
@@ -55,7 +57,7 @@ public class Post{
         p.setBytes(Base64.encodeBase64String(files.get(0).getContent()));
         p.setFile_name(files.get(0).getName());
         p.setCreator(user.getEmail());
-
+        p.setPlace(place);
         if(this.user.getRole().getName().equals(RoleContstants.ROLE_PREFIX+RoleContstants.ROLE_AGENCY)){
             p.setFrom_agency(true);
         }else if(this.user.getRole().getName().equals(RoleContstants.ROLE_PREFIX+RoleContstants.ROLE_USER)){
