@@ -4,6 +4,7 @@ import com.diplomska.backend.helpers.ApplicationHelper;
 import com.diplomska.backend.model.Application;
 import com.diplomska.backend.service.interfaces.ApplicationService;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,7 +18,7 @@ public class ApplicationController {
     }
 
     @PostMapping("/createApplication")
-    public Application createApplication(ApplicationHelper application){
+    public Application createApplication(@RequestBody ApplicationHelper application){
         return this.applicationService.createApplication(application);
     }
 
