@@ -44,6 +44,9 @@ public class Post{
     @OneToMany(mappedBy = "post")
     private List<Comment> comments;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "post")
+    private List<Application> applications;
 
     @JsonIgnore
     public PostHelper getAsPostHelper(){
