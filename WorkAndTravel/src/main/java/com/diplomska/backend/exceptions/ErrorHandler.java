@@ -48,4 +48,8 @@ public class ErrorHandler {
     public UserAlreadyExistsException handleUserAlreadyExistsException (UserAlreadyExistsException uae) {
         return uae;
     }
+
+    @ExceptionHandler(ApplicationNotFoundException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ApplicationNotFoundException handleApplicationNotFoundException (ApplicationNotFoundException uae) { return uae; }
 }

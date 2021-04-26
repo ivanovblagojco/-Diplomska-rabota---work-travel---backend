@@ -30,7 +30,7 @@ public class PostController {
 
     @PreAuthorize("hasAnyRole('ADMIN', 'USER', 'AGENCY')")
     @PostMapping("/createPost")
-    public Post createPost (@RequestParam(value = "file", required = false)MultipartFile file, @RequestParam("id")Long id, @RequestParam("title")String title, @RequestParam("description") String description) throws IOException {
+    public Post createPost (@RequestParam(value = "file", required = false)MultipartFile file, @RequestParam("id")Long id, @RequestParam("title")String title, @RequestParam("description") String description, @RequestParam("place") String place) throws IOException {
         Post post;
         if(id!=-1){
             post = postService.getById(id);
@@ -39,6 +39,7 @@ public class PostController {
         }
         post.setTitle(title);
         post.setDescription(description);
+        post.setPlace(place);
         return this.postService.create(post, file);
     }
 
