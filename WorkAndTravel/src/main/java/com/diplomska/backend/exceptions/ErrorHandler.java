@@ -52,4 +52,8 @@ public class ErrorHandler {
     @ExceptionHandler(ApplicationNotFoundException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ApplicationNotFoundException handleApplicationNotFoundException (ApplicationNotFoundException uae) { return uae; }
+
+    @ExceptionHandler(LocationNotFoundException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public LocationNotFoundException handleLocationNotFoundException (LocationNotFoundException uae) { return uae; }
 }

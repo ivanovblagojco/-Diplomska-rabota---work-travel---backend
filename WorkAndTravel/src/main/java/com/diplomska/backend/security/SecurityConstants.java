@@ -23,6 +23,7 @@ public class SecurityConstants {
     public static final String GET_ALL_COMMENTS_FOR_POST = "/rest/getAllComments/{page}/{size}/{post_id}";
     public static final String CREATE_CONTACT = "/rest/createContact";
     public static final String CREATE_APPLICATION = "/rest/createApplication";
+    public static final String CREATE_LOCATION = "/rest/getAllLocations/{page}/{size}";
 
 
 

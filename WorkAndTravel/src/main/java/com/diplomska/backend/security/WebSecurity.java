@@ -39,7 +39,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers( ADMIN_CREATE_USER, LOGIN_URL,USER_CREATE_USER, FACEBOOK_LOGIN, CONFIRM_ACCOUNT, FORGOT_PASSWORD, RESET_PASSWORD,
                         GET_ALL_POSTS, GET_POST, GET_LAST_THREE_POSTS, GET_ALL_POSTS_FROM_AGENCY, GET_ALL_POSTS_FROM_USERS, GET_ALL_COMMENTS_FOR_POST, CREATE_CONTACT,
-                        GET_ALL_POSTS_FROM_AGENCY2, GET_ALL_POSTS_FROM_USERS2,GET_ALL_POSTS2, CREATE_APPLICATION)
+                        GET_ALL_POSTS_FROM_AGENCY2, GET_ALL_POSTS_FROM_USERS2,GET_ALL_POSTS2, CREATE_APPLICATION, CREATE_LOCATION)
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()

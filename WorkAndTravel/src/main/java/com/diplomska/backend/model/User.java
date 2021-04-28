@@ -71,6 +71,14 @@ public class User {
     private List<Contact> contacts;
 
     @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Location> locations;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Like> likes;
+
+    @JsonIgnore
     public UserHelper getAsUserHelper(){
         UserHelper userHelper = new UserHelper();
 
