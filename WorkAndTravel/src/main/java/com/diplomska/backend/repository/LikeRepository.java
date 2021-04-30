@@ -12,6 +12,6 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
 
     @Modifying
     @Transactional
-    @Query("delete from File f where f.id=:id")
+    @Query("delete from Like f where f.id=:id")
     void deleteById(Long id);
 }

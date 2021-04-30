@@ -30,19 +30,5 @@ public class Location {
     @JsonIgnore
     @OneToMany(mappedBy = "location")
     private List<Like> likes;
-
-
-    @JsonIgnore
-    public LocationHelper getAsLocationHelper(){
-        LocationHelper locationHelper = new LocationHelper();
-
-        locationHelper.setId(id);
-        locationHelper.setCity(city);
-        locationHelper.setCountry(country);
-        locationHelper.setCreator(user.getEmail());
-        locationHelper.setLikes(likes.size());
-
-        return locationHelper;
-    }
 }
 

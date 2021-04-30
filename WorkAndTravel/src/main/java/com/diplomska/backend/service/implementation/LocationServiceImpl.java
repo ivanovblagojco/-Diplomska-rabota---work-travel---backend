@@ -25,7 +25,7 @@ public class LocationServiceImpl implements LocationService {
         Location locationDB = new Location();
 
         locationDB.setCountry(location.getCountry());
-        locationDB.setCountry(location.getCity());
+        locationDB.setCity(location.getCity());
         locationDB.setUser(userService.findByEmail(location.getCreator()));
 
         return locationRepository.save(locationDB);

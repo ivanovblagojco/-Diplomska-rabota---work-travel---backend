@@ -15,4 +15,5 @@ public class LocationHelper {
     private String city;
     private String creator;
     private Integer likes;
+    private Boolean is_liked;
 }
